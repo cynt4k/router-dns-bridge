@@ -8,6 +8,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/cynt4k/router-dns-bridge/cmd"
 )
 
 var (
@@ -18,10 +20,15 @@ var (
 func main() {
 	log.Printf("starting router-dns-bridge version: %s - build: %s", Version, Build)
 
+	err := cmd.Execute()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	shutdownCtx, shutdown := context.WithCancel(context.Background())
 	defer shutdown()
 
-	err := waitForInterrupt(shutdownCtx)
+	err = waitForInterrupt(shutdownCtx)
 	log.Printf("shuting down: %s", err)
 }
 

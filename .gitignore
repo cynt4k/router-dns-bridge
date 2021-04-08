@@ -1,0 +1,8 @@
+.vscode
+.devcontainer
+__debug_bin
+bin/*
+vendor/
+config/*
+
+!config/default.yaml

@@ -5,7 +5,7 @@ api:
 providers:
   powerdns:
     url: http://localhost:8080
-    apiKey: asdf1234
+    apiKey: apipw
 routers:
   router1:
     apiKey: asdf1234

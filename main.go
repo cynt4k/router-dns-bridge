@@ -25,6 +25,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	err = cmd.Serve()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	shutdownCtx, shutdown := context.WithCancel(context.Background())
 	defer shutdown()
 

@@ -2,15 +2,16 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/cynt4k/router-dns-bridge/internal/services"
 	"github.com/cynt4k/router-dns-bridge/pkg/logger"
 	"github.com/cynt4k/router-dns-bridge/pkg/utils/factory/logger/zap"
+	"github.com/labstack/echo/v4"
 	"github.com/leandro-lugaresi/hub"
 )
 
 type Server struct {
+	echo   *echo.Echo
 	logger logger.Logger
 	SS     *services.Services
 	Hub    *hub.Hub
@@ -29,13 +30,16 @@ func Serve() error {
 	}
 
 	go func() {
-		ch := make(chan bool)
-		for {
-			server.logger.Info("serving server")
-			<-ch
-			os.Exit(0)
+		serverURL := fmt.Sprintf("%s:%d", cfg.API.Host, cfg.API.Port)
+		server.logger.Info(serverURL)
+		if err := server.Start(serverURL); err != nil {
+			server.logger.Info("shutting down the server: %w", err)
 		}
 	}()
 
 	return nil
+}
+
+func (s *Server) Start(address string) error {
+	return s.echo.Start(address)
 }

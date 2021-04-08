@@ -1,0 +1,15 @@
+---
+api:
+  host: 0.0.0.0
+  port: 3000
+providers:
+  powerdns:
+    url: http://localhost:8080
+    apiKey: asdf1234
+routers:
+  router1:
+    apiKey: asdf1234
+    domain: devices.example.com
+    provider: powerdns
+    options:
+      allowedIps: ["0.0.0.0/0"]

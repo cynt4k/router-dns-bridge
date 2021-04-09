@@ -7,6 +7,7 @@ package cmd
 
 import (
 	"github.com/cynt4k/router-dns-bridge/cmd/config"
+	"github.com/cynt4k/router-dns-bridge/internal/router"
 	"github.com/cynt4k/router-dns-bridge/internal/services"
 	"github.com/cynt4k/router-dns-bridge/internal/services/powerdns"
 	"github.com/cynt4k/router-dns-bridge/pkg/logger"
@@ -23,7 +24,9 @@ func newServer(hub2 *hub.Hub, logger2 logger.Logger, config2 *config.Config) (*S
 	servicesServices := &services.Services{
 		PowerDNS: powerDNS,
 	}
+	echo := router.New(hub2, config2, servicesServices, logger2)
 	server := &Server{
+		echo:   echo,
 		logger: logger2,
 		SS:     servicesServices,
 		Hub:    hub2,

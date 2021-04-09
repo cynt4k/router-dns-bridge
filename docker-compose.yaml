@@ -45,3 +45,17 @@ services:
       "--default-soa-edit=INCEPTION-INCREMENT",
       "--gmysql-dnssec=yes"
     ]
+  
+  admin:
+    image: ngoduykhanh/powerdns-admin:latest
+    depends_on:
+    - mariadb
+    - powerdns
+    ports:
+      - "8081:80"
+    environment:
+      - SQLALCHEMY_DATABASE_URI=mysql://root:root@mariadb/pdns_admin
+      - GUNICORN_TIMEOUT=60
+      - GUNICORN_WORKERS=2
+      - GUNICORN_LOGLEVEL=DEBUG
+      - OFFLINE_MODE=False # True for offline, False for external resources
